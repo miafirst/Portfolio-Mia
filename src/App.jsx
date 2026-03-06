@@ -67,7 +67,7 @@ function Nav() {
           {["Work", "Thinking", "Building", "Contact"].map(item => (
             <a key={item} href={`#${item.toLowerCase()}`} style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13, color: C.muted,
+              fontSize: 16, color: C.muted,
               textDecoration: "none", letterSpacing: 0.5,
               transition: "color 0.2s",
             }}
@@ -152,7 +152,7 @@ function Hero() {
         <div style={{ flex: "1 1 280px", minWidth: 0 }}>
           <div style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 11, letterSpacing: 4,
+            fontSize: 12, letterSpacing: 4,
             color: C.cork, textTransform: "uppercase",
             marginBottom: 16,
             animation: "fadeUp 0.7s ease 0.1s both",
@@ -182,7 +182,7 @@ function Hero() {
 
           <p style={{
             fontFamily: "'DM Sans', sans-serif",
-            fontSize: 14, lineHeight: 1.8,
+            fontSize: 16, lineHeight: 1.8,
             color: C.muted, maxWidth: 400,
             margin: "0 0 32px", fontWeight: 300,
             animation: "fadeUp 0.7s ease 0.4s both",
@@ -197,7 +197,7 @@ function Hero() {
           }}>
             <a href="#work" style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12, fontWeight: 600,
+              fontSize: 16, fontWeight: 600,
               padding: "13px 28px",
               background: C.blue, color: C.white,
               textDecoration: "none",
@@ -209,7 +209,7 @@ function Hero() {
             >See my work</a>
             <a href="mailto:mialhtv@gmail.com" style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 12, fontWeight: 500,
+              fontSize: 16, fontWeight: 500,
               padding: "13px 28px",
               border: `1.5px solid ${C.blue}`,
               color: C.blue, textDecoration: "none",
@@ -271,7 +271,7 @@ function Case({ num, tag, title, problem, what, learned, accent = false }) {
           <div style={{ minWidth: 0 }}>
             <div style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 10, letterSpacing: 3,
+              fontSize: 12, letterSpacing: 3,
               color: accent ? C.nude : C.cork,
               textTransform: "uppercase", marginBottom: 6,
             }}>{tag}</div>
@@ -313,7 +313,7 @@ function Case({ num, tag, title, problem, what, learned, accent = false }) {
               <div key={label}>
                 <div style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10, letterSpacing: 3,
+                  fontSize: 12, letterSpacing: 3,
                   color: accent ? `${C.nude}70` : C.cork,
                   textTransform: "uppercase", marginBottom: 12,
                 }}>{label}</div>
@@ -410,7 +410,7 @@ function Thinking() {
               }}>{title}</h3>
               <p style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: 14, lineHeight: 1.85,
+                fontSize: 16, lineHeight: 1.85,
                 color: `${C.nude}99`, margin: 0, fontWeight: 300,
               }}>{body}</p>
             </div>
@@ -438,7 +438,7 @@ function Building() {
           }}>On my own time</div>
         </div>
         <div style={{ width: "100%", height: 2, background: `linear-gradient(to right, ${C.cork}, transparent)`, marginBottom: 12 }} />
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: C.muted, marginBottom: 48, maxWidth: 460, lineHeight: 1.8, fontWeight: 300 }}>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: C.muted, marginBottom: 48, maxWidth: 460, lineHeight: 1.8, fontWeight: 300 }}>
           The clearest signal of how someone thinks is what they make when nobody asks them to.
         </p>
       </Reveal>
@@ -468,7 +468,7 @@ function Building() {
             }}>
               <div style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: 10, letterSpacing: 3,
+                fontSize: 12, letterSpacing: 3,
                 color: C.cork, textTransform: "uppercase", marginBottom: 16,
               }}>{p.sub}</div>
               <h3 style={{
@@ -486,7 +486,7 @@ function Building() {
                 {p.tags.map(t => (
                   <span key={t} style={{
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: 11, padding: "4px 12px",
+                    fontSize: 12, padding: "4px 12px",
                     border: `1px solid ${C.cork}50`,
                     color: C.cork, borderRadius: 20,
                   }}>{t}</span>
@@ -515,7 +515,7 @@ function Contact() {
           <div style={{ flex: "1 1 300px", minWidth: 0 }}>
             <div style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 11, letterSpacing: 4,
+              fontSize: 12, letterSpacing: 4,
               color: C.cork, textTransform: "uppercase", marginBottom: 24,
             }}>Let's talk</div>
             <h2 style={{
@@ -583,7 +583,7 @@ function Contact() {
                 </div>
                 <div style={{
                   fontFamily: "'DM Sans', sans-serif",
-                  fontSize: 10, letterSpacing: 2,
+                  fontSize: 12, letterSpacing: 2,
                   color: C.cork, textTransform: "uppercase",
                   textAlign: "center", lineHeight: 1.8, opacity: 0.65,
                 }}>

@@ -534,8 +534,8 @@ function Contact() {
               maxWidth: 400, lineHeight: 1.8,
               margin: "0 0 40px", fontWeight: 300,
             }}>
-              Open to product manager and product owner roles in Tallinn.
-              I like meaningful work, clear problems, and teams where everyone knows their lane.
+              I am open to product manager and product owner roles in Tallinn.
+              I like meaningful work, clear problems, and teams where cooperation matters.
             </p>
             <a href="mailto:mialhtv@gmail.com" style={{
               fontFamily: "'DM Sans', sans-serif",

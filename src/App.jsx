@@ -1,0 +1,634 @@
+import { useState, useEffect, useRef } from "react";
+
+const C = {
+  bg: "#FDF6F0",
+  nude: "#FFD7B9",
+  blue: "#3D5499",
+  cork: "#9B3F20",
+  text: "#1A1A1A",
+  muted: "#7A6A5A",
+  white: "#FFFFFF",
+};
+
+const fonts = `@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');`;
+
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, inView];
+}
+
+function Reveal({ children, delay = 0 }) {
+  const [ref, inView] = useInView();
+  return (
+    <div ref={ref} style={{
+      opacity: inView ? 1 : 0,
+      transform: inView ? "none" : "translateY(28px)",
+      transition: `opacity 0.8s ease ${delay}s, transform 0.8s ease ${delay}s`,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+// ─── NAV ───────────────────────────────────────────────────────────
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  return (
+    <>
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        padding: "0 32px", height: 60,
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        background: scrolled ? `${C.bg}F2` : "transparent",
+        backdropFilter: scrolled ? "blur(10px)" : "none",
+        borderBottom: scrolled ? `1px solid ${C.nude}80` : "none",
+        transition: "all 0.4s ease",
+      }}>
+        <span style={{
+          fontFamily: "'Playfair Display', serif",
+          fontSize: 22, fontWeight: 700, color: C.blue,
+        }}>ML</span>
+
+        {/* Desktop */}
+        <div className="desktop-nav" style={{ display: "flex", gap: 40 }}>
+          {["Work", "Thinking", "Building", "Contact"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`} style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 13, color: C.muted,
+              textDecoration: "none", letterSpacing: 0.5,
+              transition: "color 0.2s",
+            }}
+              onMouseEnter={e => e.target.style.color = C.cork}
+              onMouseLeave={e => e.target.style.color = C.muted}
+            >{item}</a>
+          ))}
+        </div>
+
+        {/* Mobile hamburger */}
+        <button onClick={() => setMenuOpen(!menuOpen)} className="hamburger" style={{
+          background: "none", border: "none", cursor: "pointer", padding: 8,
+        }}>
+          {[0, 1, 2].map(i => (
+            <div key={i} style={{
+              width: 22, height: 2, background: C.blue,
+              marginBottom: i < 2 ? 5 : 0,
+              transition: "all 0.3s",
+              transform: menuOpen
+                ? i === 0 ? "rotate(45deg) translate(5px, 5px)"
+                : i === 2 ? "rotate(-45deg) translate(5px, -5px)"
+                : "none"
+                : "none",
+              opacity: menuOpen && i === 1 ? 0 : 1,
+            }} />
+          ))}
+        </button>
+      </nav>
+
+      {menuOpen && (
+        <div style={{
+          position: "fixed", top: 60, left: 0, right: 0, zIndex: 99,
+          background: C.bg, borderBottom: `1px solid ${C.nude}`,
+          padding: "28px 32px", display: "flex", flexDirection: "column", gap: 24,
+        }}>
+          {["Work", "Thinking", "Building", "Contact"].map(item => (
+            <a key={item} href={`#${item.toLowerCase()}`}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 20, color: C.text, textDecoration: "none", fontWeight: 500,
+              }}>{item}</a>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+// ─── HERO ──────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section style={{
+      padding: "100px 32px 56px",
+      display: "flex", alignItems: "center",
+      position: "relative", overflow: "hidden",
+      minHeight: "auto",
+    }}>
+      {/* Big decorative M — desktop only, behind photo */}
+      <div className="deco-m" style={{
+        position: "absolute",
+        right: "2%", top: "50%",
+        transform: "translateY(-50%)",
+        fontFamily: "'Playfair Display', serif",
+        fontSize: "clamp(180px, 28vw, 340px)",
+        fontWeight: 900, fontStyle: "italic",
+        color: C.nude, lineHeight: 1,
+        userSelect: "none", pointerEvents: "none",
+        opacity: 0.5, zIndex: 0,
+      }}>M</div>
+
+      {/* Two column layout */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "clamp(28px, 4vw, 56px)",
+        width: "100%",
+        position: "relative", zIndex: 1,
+      }}>
+
+        {/* LEFT — text */}
+        <div style={{ flex: "1 1 280px", minWidth: 0 }}>
+          <div style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 11, letterSpacing: 4,
+            color: C.cork, textTransform: "uppercase",
+            marginBottom: 16,
+            animation: "fadeUp 0.7s ease 0.1s both",
+          }}>Product Manager · Tallinn</div>
+
+          <h1 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(48px, 7vw, 88px)",
+            fontWeight: 900, lineHeight: 0.92,
+            color: C.blue, margin: "0 0 20px",
+            letterSpacing: -2,
+            animation: "fadeUp 0.7s ease 0.2s both",
+          }}>
+            Mia<br />Lahtvee
+          </h1>
+
+          <p style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(15px, 2vw, 20px)",
+            fontWeight: 400, fontStyle: "italic",
+            color: C.muted, margin: "0 0 20px", lineHeight: 1.5,
+            animation: "fadeUp 0.7s ease 0.3s both",
+          }}>
+            "The bridge between what my team<br />
+            needs and what developers build."
+          </p>
+
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 14, lineHeight: 1.8,
+            color: C.muted, maxWidth: 400,
+            margin: "0 0 32px", fontWeight: 300,
+            animation: "fadeUp 0.7s ease 0.4s both",
+          }}>
+            Ten years inside one organisation. Every role, every layer.
+            Social science background. Builds things — not just manages them.
+          </p>
+
+          <div style={{
+            display: "flex", gap: 12, flexWrap: "wrap",
+            animation: "fadeUp 0.7s ease 0.5s both",
+          }}>
+            <a href="#work" style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12, fontWeight: 600,
+              padding: "13px 28px",
+              background: C.blue, color: C.white,
+              textDecoration: "none",
+              letterSpacing: 1.5, textTransform: "uppercase",
+              transition: "all 0.25s", display: "inline-block",
+            }}
+              onMouseEnter={e => { e.target.style.background = C.cork; e.target.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.target.style.background = C.blue; e.target.style.transform = "none"; }}
+            >See my work</a>
+            <a href="mailto:mialhtv@gmail.com" style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12, fontWeight: 500,
+              padding: "13px 28px",
+              border: `1.5px solid ${C.blue}`,
+              color: C.blue, textDecoration: "none",
+              letterSpacing: 1.5, textTransform: "uppercase",
+              transition: "all 0.25s", display: "inline-block",
+            }}
+              onMouseEnter={e => { e.target.style.borderColor = C.cork; e.target.style.color = C.cork; }}
+              onMouseLeave={e => { e.target.style.borderColor = C.blue; e.target.style.color = C.blue; }}
+            >Get in touch</a>
+          </div>
+        </div>
+
+      </div>
+
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .desktop-nav { display: flex !important; }
+        .hamburger { display: none !important; }
+        @media (max-width: 680px) {
+          .desktop-nav { display: none !important; }
+          .hamburger { display: block !important; }
+          .hero-photo { display: none !important; }
+          .deco-m { display: none !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+// ─── WORK ──────────────────────────────────────────────────────────
+function Case({ num, tag, title, problem, what, learned, accent = false }) {
+  const [open, setOpen] = useState(false);
+  const [ref, inView] = useInView();
+
+  return (
+    <div ref={ref} style={{
+      borderBottom: `1px solid ${C.nude}`,
+      opacity: inView ? 1 : 0,
+      transform: inView ? "none" : "translateY(24px)",
+      transition: "opacity 0.7s ease, transform 0.7s ease",
+      background: accent ? C.blue : C.white,
+    }}>
+      <button onClick={() => setOpen(!open)} style={{
+        width: "100%", padding: "clamp(24px, 4vw, 40px) 32px",
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+        background: "none", border: "none", cursor: "pointer", textAlign: "left", gap: 16,
+      }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "clamp(12px, 3vw, 28px)", flex: 1, minWidth: 0 }}>
+          <span style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(32px, 6vw, 64px)",
+            fontWeight: 900, fontStyle: "italic",
+            color: accent ? `${C.nude}30` : `${C.blue}18`,
+            lineHeight: 1, flexShrink: 0,
+          }}>{num}</span>
+          <div style={{ minWidth: 0 }}>
+            <div style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 10, letterSpacing: 3,
+              color: accent ? C.nude : C.cork,
+              textTransform: "uppercase", marginBottom: 6,
+            }}>{tag}</div>
+            <div style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(18px, 3vw, 30px)",
+              fontWeight: 700,
+              color: accent ? C.white : C.blue,
+              lineHeight: 1.2,
+            }}>{title}</div>
+          </div>
+        </div>
+        <div style={{
+          width: 32, height: 32, flexShrink: 0,
+          border: `1.5px solid ${accent ? C.nude : C.blue}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          transition: "transform 0.3s",
+          transform: open ? "rotate(45deg)" : "none",
+        }}>
+          <span style={{
+            fontFamily: "'DM Sans', sans-serif", fontSize: 18,
+            color: accent ? C.nude : C.blue, lineHeight: 1, marginTop: -2,
+          }}>+</span>
+        </div>
+      </button>
+
+      <div style={{ maxHeight: open ? 1000 : 0, overflow: "hidden", transition: "max-height 0.5s ease" }}>
+        <div style={{ padding: "0 32px clamp(32px, 5vw, 52px)" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "clamp(24px, 4vw, 40px)",
+          }}>
+            {[
+              { label: "The problem", text: problem },
+              { label: "What I did", text: what },
+              { label: "What I learned", text: learned, italic: true },
+            ].map(({ label, text, italic }) => (
+              <div key={label}>
+                <div style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 10, letterSpacing: 3,
+                  color: accent ? `${C.nude}70` : C.cork,
+                  textTransform: "uppercase", marginBottom: 12,
+                }}>{label}</div>
+                <p style={{
+                  fontFamily: italic ? "'Playfair Display', serif" : "'DM Sans', sans-serif",
+                  fontSize: italic ? 17 : 14,
+                  lineHeight: 1.85,
+                  fontStyle: italic ? "italic" : "normal",
+                  color: accent ? `${C.nude}BB` : C.muted,
+                  margin: 0, fontWeight: 300,
+                }}>{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Work() {
+  return (
+    <section id="work" style={{ background: C.white }}>
+      <div style={{ padding: "80px 32px 48px" }}>
+        <Reveal>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 20, flexWrap: "wrap" }}>
+            <div style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(44px, 8vw, 80px)",
+              fontWeight: 900, color: C.blue, lineHeight: 1, letterSpacing: -2,
+            }}>Work</div>
+            <div style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12, color: C.cork, letterSpacing: 3, textTransform: "uppercase",
+            }}>Three stories</div>
+          </div>
+          <div style={{ width: "100%", height: 2, background: `linear-gradient(to right, ${C.cork}, transparent)`, marginTop: 16 }} />
+        </Reveal>
+      </div>
+
+      <Case num="01" tag="AI Product · Chatbot" title="Giving tourists a voice at 2am"
+        problem="Our customer service closed at 5pm. Tourists with Tallinn Card problems had no help until the next business day. Meanwhile, our CS team was buried in repeat questions during opening hours."
+        what="I defined the chatbot architecture, launched 'Vana Toomas' in Estonian and English, wrote the content structure, created response templates, iterated on real conversation data, and presented the system to city-level stakeholders."
+        learned="Building for two users simultaneously — the tourist and the CS agent — forces better decisions than optimising for just one."
+      />
+      <Case num="02" tag="Change Management · CRM" title="The product that worked before people used it"
+        problem="Our team said they wanted one place for all information. When we built it, they kept using Excel. Workshops, deadlines, user guides — none of it moved the needle. People were overworked and every new tool felt like a burden."
+        what="After exhausting every soft approach, we escalated to a mandate. I had already built a 1,875-record database, dashboards, documentation, and was running daily coaching. The mandate made the work land."
+        learned="Sometimes the uncomfortable decision is the kindest one. The effort you put in before is what makes the hard thing work."
+        accent={true}
+      />
+      <Case num="03" tag="Org Design · Product Governance" title="A team that outlasted me"
+        problem="Too many people touching the website, no clear ownership, constant resource drain. A service design training gave us the space to name the problem properly."
+        what="I co-designed and launched a cross-functional web governance team — defined roles, regular syncs, retrospectives, quarterly reviews. Led it for the first years, then stepped back deliberately."
+        learned="The best product work creates systems that don't need you anymore. This team is still running five years later."
+      />
+    </section>
+  );
+}
+
+// ─── THINKING ──────────────────────────────────────────────────────
+function Thinking() {
+  return (
+    <section id="thinking" style={{ background: C.blue, padding: "80px 32px" }}>
+      <Reveal>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 20, marginBottom: 16, flexWrap: "wrap" }}>
+          <div style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(44px, 8vw, 80px)",
+            fontWeight: 900, color: C.white, lineHeight: 1, letterSpacing: -2,
+          }}>How I think</div>
+        </div>
+        <div style={{ width: "100%", height: 2, background: `linear-gradient(to right, ${C.nude}, transparent)`, marginBottom: 56 }} />
+      </Reveal>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 48 }}>
+        {[
+          { n: "01", title: "Both users matter", body: "Every product has at least two users — the person using it and the person who needs it to work. I always ask: who are we building for, and what does winning look like for each of them?" },
+          { n: "02", title: "Data informs, instinct decides", body: "Analytics tells you what people do. Research tells you why. Neither alone is enough. I triangulate — then make a call and own it." },
+          { n: "03", title: "Uncomfortable early, comfortable later", body: "The best decisions are often unpopular before they're proven. I'd rather have the hard conversation upfront than explain a bad outcome at the end." },
+        ].map(({ n, title, body }, i) => (
+          <Reveal key={n} delay={i * 0.15}>
+            <div>
+              <div style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: 52, fontWeight: 900, fontStyle: "italic",
+                color: `${C.nude}20`, lineHeight: 1, marginBottom: -4,
+              }}>{n}</div>
+              <div style={{ width: 28, height: 2, background: C.nude, margin: "12px 0 18px" }} />
+              <h3 style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: 21, fontWeight: 700,
+                color: C.white, margin: "0 0 14px",
+              }}>{title}</h3>
+              <p style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 14, lineHeight: 1.85,
+                color: `${C.nude}99`, margin: 0, fontWeight: 300,
+              }}>{body}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── BUILDING ──────────────────────────────────────────────────────
+function Building() {
+  return (
+    <section id="building" style={{ padding: "80px 32px" }}>
+      <Reveal>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 20, marginBottom: 16, flexWrap: "wrap" }}>
+          <div style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(44px, 8vw, 80px)",
+            fontWeight: 900, color: C.blue, lineHeight: 1, letterSpacing: -2,
+          }}>Building</div>
+          <div style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 12, color: C.cork, letterSpacing: 3, textTransform: "uppercase",
+          }}>On my own time</div>
+        </div>
+        <div style={{ width: "100%", height: 2, background: `linear-gradient(to right, ${C.cork}, transparent)`, marginBottom: 12 }} />
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: C.muted, marginBottom: 48, maxWidth: 460, lineHeight: 1.8, fontWeight: 300 }}>
+          The clearest signal of how someone thinks is what they make when nobody asks them to.
+        </p>
+      </Reveal>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 2, alignItems: "stretch" }}>
+        {[
+          {
+            title: "me, first.",
+            sub: "Personal Finance App",
+            desc: "A mobile-first finance app for women who find traditional money tools cold and overwhelming. Budgeting reframed as self-care — pay-period anchoring, impulse-buy friction, savings goals that feel human. Built because I needed it. For the 7 billion people who probably do too.",
+            tags: ["React", "UX Design", "Design System", "Product Strategy"],
+            bg: C.nude,
+          },
+          {
+            title: "AI Work Planner",
+            sub: "Claude API Integration",
+            desc: "A weekly planner that takes tasks and calendar data and generates a structured schedule — respecting work hours, protected breaks, and priority logic. Practical AI development: API calls, structured outputs, error handling, iterated UX. Not just prompting.",
+            tags: ["React", "Claude API", "AI Product", "Workflow"],
+            bg: C.bg,
+          },
+        ].map((p, i) => (
+          <Reveal key={p.title} delay={i * 0.15}>
+            <div style={{
+              background: p.bg, border: `1px solid ${C.nude}`,
+              padding: "clamp(32px, 5vw, 52px) clamp(24px, 4vw, 40px)",
+              height: "100%", boxSizing: "border-box",
+            }}>
+              <div style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 10, letterSpacing: 3,
+                color: C.cork, textTransform: "uppercase", marginBottom: 16,
+              }}>{p.sub}</div>
+              <h3 style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontWeight: 900, fontStyle: "italic",
+                color: C.blue, margin: "0 0 18px", lineHeight: 1.1,
+              }}>{p.title}</h3>
+              <p style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 14, lineHeight: 1.85,
+                color: C.muted, margin: "0 0 24px", fontWeight: 300,
+              }}>{p.desc}</p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {p.tags.map(t => (
+                  <span key={t} style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 11, padding: "4px 12px",
+                    border: `1px solid ${C.cork}50`,
+                    color: C.cork, borderRadius: 20,
+                  }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── CONTACT ──────────────────────────────────────────────────────
+function Contact() {
+  return (
+    <section id="contact" style={{ padding: "100px 32px 80px", borderTop: `1px solid ${C.nude}` }}>
+      <Reveal>
+        <div style={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: "clamp(40px, 6vw, 80px)",
+          flexWrap: "wrap",
+        }}>
+          {/* LEFT — text */}
+          <div style={{ flex: "1 1 300px", minWidth: 0 }}>
+            <div style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 11, letterSpacing: 4,
+              color: C.cork, textTransform: "uppercase", marginBottom: 24,
+            }}>Let's talk</div>
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(34px, 6vw, 62px)",
+              fontWeight: 900, lineHeight: 1.05,
+              color: C.blue, margin: "0 0 24px",
+              letterSpacing: -1.5,
+            }}>
+              If you're building something<br />
+              <span style={{ fontStyle: "italic", fontWeight: 400 }}>that needs a bridge —</span>
+            </h2>
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 15, color: C.muted,
+              maxWidth: 400, lineHeight: 1.8,
+              margin: "0 0 40px", fontWeight: 300,
+            }}>
+              Open to product manager and product owner roles in Tallinn.
+              I like meaningful work, clear problems, and teams where everyone knows their lane.
+            </p>
+            <a href="mailto:mialhtv@gmail.com" style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12, fontWeight: 600,
+              padding: "13px 28px",
+              background: C.blue, color: C.white,
+              textDecoration: "none",
+              letterSpacing: 1.5, textTransform: "uppercase",
+              display: "inline-block", transition: "all 0.25s",
+            }}
+              onMouseEnter={e => { e.target.style.background = C.cork; e.target.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.target.style.background = C.blue; e.target.style.transform = "none"; }}
+            >Get in touch</a>
+          </div>
+
+          {/* RIGHT — photo */}
+          <div style={{
+            flexShrink: 0,
+            width: "clamp(200px, 24vw, 320px)",
+            position: "relative",
+            alignSelf: "center",
+          }}>
+            <div style={{
+              width: "100%",
+              aspectRatio: "3/4",
+              overflow: "hidden",
+            }}>
+              {/*
+                TO ADD YOUR PHOTO — replace the div below with:
+                <img src="./mia.jpg" alt="Mia Lahtvee"
+                  style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top" }} />
+              */}
+              <div style={{
+                width: "100%", height: "100%",
+                background: `linear-gradient(145deg, ${C.nude} 0%, ${C.cork}40 100%)`,
+                display: "flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center", gap: 10,
+              }}>
+                <div style={{
+                  width: 52, height: 52, borderRadius: "50%",
+                  border: `2px solid ${C.cork}50`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <div style={{ fontSize: 22, color: C.cork, opacity: 0.5 }}>↑</div>
+                </div>
+                <div style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: 10, letterSpacing: 2,
+                  color: C.cork, textTransform: "uppercase",
+                  textAlign: "center", lineHeight: 1.8, opacity: 0.65,
+                }}>
+                  Your photo<br />
+                  <span style={{ fontSize: 9, opacity: 0.6 }}>mia.jpg</span>
+                </div>
+              </div>
+            </div>
+            {/* Cork accent line */}
+            <div style={{
+              position: "absolute", bottom: -12, left: -12,
+              width: "55%", height: 3, background: C.cork,
+            }} />
+            {/* Nude square */}
+            <div style={{
+              position: "absolute", top: -10, right: -10,
+              width: 40, height: 40, background: C.nude, zIndex: -1,
+            }} />
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+// ─── APP ──────────────────────────────────────────────────────────
+export default function App() {
+  return (
+    <div style={{ background: C.bg, minHeight: "100vh", overflowX: "hidden" }}>
+      <style>{fonts}</style>
+      <Nav />
+      <Hero />
+      <Work />
+      <Thinking />
+      <Building />
+      <Contact />
+      <div style={{
+        borderTop: `1px solid ${C.nude}`,
+        padding: "20px 32px",
+        display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8,
+        fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.muted,
+      }}>
+        <span>Mia Lahtvee · 2026</span>
+        <span>Tallinn, Estonia</span>
+      </div>
+    </div>
+  );
+}

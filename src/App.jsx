@@ -1040,7 +1040,7 @@ function Contact() {
               {/*
                 TO ADD YOUR PHOTO — replace the div below with:
                 <img
-                  src="./mia.jpg"
+                  src="./Mia Lahtvee.jpg"
                   alt="Portrait of Mia Lahtvee"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
                 />

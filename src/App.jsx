@@ -372,8 +372,10 @@ function Hero() {
               animation: "fadeUp 0.7s ease 0.4s both",
             }}
           >
-            Ten years inside one organisation. Every role, every layer. Social
-            science background. Builds things — not just manages them.
+            Ten years inside one organisation - from customer service to owning a portfolio of digital products serving millions of visitors.
+My work sits between people and systems: translating organisational needs into clear requirements, and technical reality back into language teams can act on.
+I care about usability, accessibility, and building products that actually survive real-world use.
+
           </p>
 
           <div
@@ -679,28 +681,28 @@ function Work() {
 
       <Case
         num="01"
-        tag="AI Product · Chatbot"
-        title="Giving tourists a voice at 2am"
-        problem="Our customer service closed at 5pm. Tourists with Tallinn Card problems had no help until the next business day. Meanwhile, our CS team was buried in repeat questions during opening hours."
-        what="I defined the chatbot architecture, launched 'Vana Toomas' in Estonian and English, wrote the content structure, created response templates, iterated on real conversation data, and presented the system to city-level stakeholders."
-        learned="Building for two users simultaneously — the tourist and the CS agent — forces better decisions than optimising for just one."
+        tag="Tallinn Card · App"
+        title="Tallinn Card mobile app"
+        problem="The Tallinn Card mobile app is used by visitors to access museums, transport, and attractions across the city. The system depended on a third-party synchronisation service that announced shutting down. Visitors were also experiencing issues such as cards disappearing from devices and purchase failures."
+        what="I stepped into the situation as the product owner responsible for the service and coordinated the recovery across internal teams and external partners. Working with developers, we delivered a new data exchange layer and a new administrative environment that replaced the failed synchronisation service. Alongside the infrastructure work, I coordinated fixes for recurring reliability issues, implemented analytics tracking to give the product a measurable baseline, and coordinated several UX improvements to make the purchase and usage flow clearer for visitors."
+        learned="Technical failures rarely happen in isolation - they expose weaknesses in ownership, documentation, and system architecture. Recovering the product meant not just fixing the immediate problem but building a structure that could withstand future change."
       />
       <Case
         num="02"
         tag="Change Management · CRM"
-        title="The product that worked before people used it"
-        problem="Our team said they wanted one place for all information. When we built it, they kept using Excel. Workshops, deadlines, user guides — none of it moved the needle. People were overworked and every new tool felt like a burden."
-        what="After exhausting every soft approach, we escalated to a mandate. I had already built a 1,875-record database, dashboards, documentation, and was running daily coaching. The mandate made the work land."
-        learned="Sometimes the uncomfortable decision is the kindest one. The effort you put in before is what makes the hard thing work."
+        title="CRM implementation"
+        problem="Our organisation relied heavily on partnerships with tourism businesses, but information about those relationships lived in scattered spreadsheets, inboxes, and personal notes. Teams agreed that a shared system would help, yet early attempts at introducing one had failed. Every new tool felt like additional overhead, and the idea of a CRM had already developed some quiet resistance."
+        what="I led the implementation of Odoo CRM across the organisation, starting with workshops to map how teams actually worked rather than how the system expected them to work. Based on those workflows I further structured the database, imported and organised more than 1,800 records of contacts and organisations, built dashboards and documentation, and supported colleagues through day-to-day adoption. The system gradually became the central place for tracking cooperation and partner relationships."
+        learned="Adoption problems are rarely technical. People resist systems when they feel like extra work, not when the software is imperfect. The most effective way to introduce a tool is to make it clearly easier than the habits it replaces."
         accent={true}
       />
       <Case
         num="03"
-        tag="Org Design · Product Governance"
-        title="A team that outlasted me"
-        problem="Too many people touching the website, no clear ownership, constant resource drain. A service design training gave us the space to name the problem properly."
-        what="I co-designed and launched a cross-functional web governance team — defined roles, regular syncs, retrospectives, quarterly reviews. Led it for the first years, then stepped back deliberately."
-        learned="The best product work creates systems that don't need you anymore. This team is still running five years later."
+        tag="AI automation · Chatbot"
+        title="Vana Toomas chatbot"
+        problem="Visitors regularly contact the Visit Tallinn support team with questions about attractions  and city services. Many of these questions arrive outside office hours, when tourists are already exploring the city and need answers immediately. At the same time, the customer service team was spending a large portion of their working hours answering the same repetitive questions."
+        what="I designed and launched the Vana Toomas chatbot as a first layer of support for visitors using the website and the mobile app. I defined the conversation structure, created response templates, and built the content architecture around the most common visitor questions. After launching the initial version in English, I developed an Estonian-language version and began reviewing real conversations to refine the system over time. I also presented the chatbot and its approach to stakeholders across the city government as an example of practical AI implementation."
+        learned="AI tools are only useful when they solve a real operational problem. The chatbot needed to work for two audiences at once - visitors looking for quick answers and the support team responsible for maintaining the system behind it."
       />
     </section>
   );
@@ -730,12 +732,12 @@ function Thinking() {
           {
             n: "01",
             title: "Both users matter",
-            body: "Every product has at least two users — the person using it and the person who needs it to work. I always ask: who are we building for, and what does winning look like for each of them?",
+            body: "Every product has at least two users — the person using it and the person who needs it to work. The Tallinn Card chatbot needed to help visitors and give customer service a maintainable knowledge structure. I always ask: who are we building for, and what does winning look like for each of them?",
           },
           {
             n: "02",
             title: "Data informs, instinct decides",
-            body: "Analytics tells you what people do. Research tells you why. Neither alone is enough. I triangulate — then make a call and own it.",
+            body: "Analytics tells you what people do. Research tells you why. Neither alone is enough. Visit Tallinn event's page is one of the top visited pages on the site, user surveys told us they need the information, but usability has problems. I triangulate — then make a call and own it.",
           },
           {
             n: "03",
@@ -838,7 +840,7 @@ function Building() {
           {
             title: "me, first.",
             sub: "Personal Finance App",
-            desc: "A mobile-first finance app for women who find traditional money tools cold and overwhelming. Budgeting reframed as self-care — pay-period anchoring, impulse-buy friction, savings goals that feel human. Built because I needed it. For the 7 billion people who probably do too.",
+            desc: "A mobile-first finance app for women who find traditional money tools cold and overwhelming. Budgeting reframed as self-care — pay-period anchoring, impulse-buy friction, savings goals that feel human. Built because I needed it. Built because traditional finance apps rarely reflect how people actually get paid or spend money.",
             tags: ["React", "UX Design", "Design System", "Product Strategy"],
             bg: C.nude,
           },

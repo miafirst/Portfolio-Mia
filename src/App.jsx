@@ -83,7 +83,7 @@ function SectionTitle({ title, kicker, inverse = false, id }) {
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const navItems = ["Work", "Thinking", "Building", "Contact"];
+  const navItems = ["Working", "Thinking", "Building", "Contact"];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -192,7 +192,7 @@ function Hero() {
           </p>
 
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", animation: "fadeUp 0.7s ease 0.5s both" }}>
-            <a href="#work" className="interactive-link" style={{
+            <a href="#working" className="interactive-link" style={{
               fontFamily: "'DM Sans', sans-serif", fontSize: T.md, fontWeight: 600,
               padding: "13px 28px", background: C.blue, color: C.white,
               textDecoration: "none", letterSpacing: 1.5, textTransform: "uppercase",
@@ -228,7 +228,7 @@ function Hero() {
   );
 }
 
-// ─── WORK ──────────────────────────────────────────────────────────
+// ─── WORKING ──────────────────────────────────────────────────────────
 function Case({ num, tag, title, problem, what, learned, accent = false }) {
   const [open, setOpen] = useState(false);
   const [ref, inView] = useInView();
@@ -278,11 +278,11 @@ function Case({ num, tag, title, problem, what, learned, accent = false }) {
   );
 }
 
-function Work() {
+function Working() {
   return (
-    <section id="work" aria-labelledby="work-title" style={{ background: C.white }}>
+    <section id="working" aria-labelledby="work-title" style={{ background: C.white }}>
       <div style={{ padding: "80px 32px 48px" }}>
-        <Reveal><SectionTitle id="work-title" title="Work" kicker="Three stories" /></Reveal>
+        <Reveal><SectionTitle id="work-title" title="Working" kicker="Three stories" /></Reveal>
       </div>
       <Case num="01" tag="Tallinn Card · App" title="Tallinn Card mobile app"
         problem="The Tallinn Card mobile app is used by visitors to access museums, transport, and attractions across the city. The system depended on a third-party synchronisation service that announced shutting down. Visitors were also experiencing issues such as cards disappearing from devices and purchase failures."

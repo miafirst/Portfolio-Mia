@@ -380,7 +380,7 @@ function Contact() {
               <span style={{ fontStyle: "italic", fontWeight: 400 }}>that needs a bridge —</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: T.md, color: C.muted, maxWidth: 400, lineHeight: 1.8, margin: "0 0 40px", fontWeight: 300 }}>
-              Open to product manager and product owner roles in Tallinn. I like meaningful work, clear problems, and teams where everyone knows their lane.
+              Open to product manager and product owner roles in Tallinn. I like meaningful work, clear problems, and teams where everyone gets to give their magic touch to a product.
             </p>
             <a href="mailto:mialhtv@gmail.com" className="interactive-link" style={{
               fontFamily: "'DM Sans', sans-serif", fontSize: T.md, fontWeight: 600,
